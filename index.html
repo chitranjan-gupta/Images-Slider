@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="range.css">
+  </head>
+  <body>
+    <div class="container">
+      <section id="slider">
+        <label id="slide1"></label>
+        <label id="slide2"></label>
+        <label id="slide3"></label>
+        <label id="slide4"></label>
+        <label id="slide5"></label>
+        <label id="slide6"></label>
+        <label id="slide7"></label>
+      </section>
+      <div>
+        <input style="width: 100px;" id="imageFile" type="file" accept="image/*" multiple/>
+      <button id="fitBut">FIT</button>
+      </div>
+    </div>
+    <div>Copyright @ 2022 <a href="https://github.com/chitranjan01">Chitranjan Gupta</a></div>
+    <script src="range.js" charset="utf-8"></script>
+    <script>
+        const fileInput = document.querySelector("#imageFile");
+        const fitButton = document.querySelector("#fitBut");
+        function handleFiles(){
+          const fileList = this.files;
+          if(fileList.length > 1){
+            
+          }else{
+            const slideArray = document.querySelector("#slider").children;
+            for(let i=0;i<slideArray.length;i++){
+              const objectURL = URL.createObjectURL(fileList[0]);
+              slideArray[i].style.backgroundImage = `url("${objectURL}")`;
+              //URL.revokeObjectURL(objectURL);
+            }
+          }
+        }
+        fileInput.addEventListener("change",handleFiles,false);
+        function handleFit(){
+          document.body.style = "--fit-type:contain"
+        }
+        fitButton.addEventListener("click",handleFit,false); 
+    </script>
+  </body>
+</html>
