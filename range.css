@@ -27,8 +27,9 @@ body{
   right: 0;
   cursor: pointer;
   transition: transform 0.4s ease-in-out;
-  /* background: url(g.jpg)no-repeat;
-  background-size: cover; */
+  background-repeat: no-repeat;
+  background-size: var(--fit-type);
+  background-position: center center;
 }
 #slider label.slide3{
   transform: translate3d(0,0,-200px);
@@ -63,45 +64,24 @@ body{
   transform: translate3d(0,0,-200px);
 }
 
-#slide1 { 
-  background-repeat: no-repeat;
-  background-size: var(--fit-type);
-  background-position: center center;
+#slide1 {
   background-color: violet
 }
-#slide2 { 
-  background-repeat: no-repeat;
-  background-size: var(--fit-type);
-  background-position: center center;
+#slide2 {
   background-color: indigo
 }
-#slide3 { 
-  background-repeat: no-repeat;
-  background-size: var(--fit-type);
-  background-position: center center;
+#slide3 {
   background-color: blue
 }
-#slide4 { 
-  background-repeat: no-repeat;
-  background-size: var(--fit-type);
-  background-position: center center;
+#slide4 {
   background-color: green
 }
-#slide5 { 
-  background-repeat: no-repeat;
-  background-size: var(--fit-type);
-  background-position: center center;
+#slide5 {
   background-color: yellow
 }
-#slide6 { 
-  background-repeat: no-repeat;
-  background-size: var(--fit-type);
-  background-position: center center;
+#slide6 {
   background-color: orange
 }
-#slide7 { 
-  background-repeat: no-repeat;
-  background-size: var(--fit-type);
-  background-position: center center;
+#slide7 {
   background-color: red
 }
