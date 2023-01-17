@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href="range.css">
-  </head>
-  <body>
-    <div class="container">
+<head>
+  <meta charset="utf-8" />
+  <title>Images Slider</title>
+  <meta name="description" content="Slide thorough images" />
+  <meta name="author" content="Chitranjan Gupta" />
+  <meta name="theme-color" content="#B12A34" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="./icons/icon-16.png"/>
+  <link rel="apple-touch-icon" href="./icons/icon-192.png"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./range.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="slideContainer">
+      <div id="leftButton" class="buttonContainer">
+        <span>&#60</span>
+      </div>
       <section id="slider">
         <label id="slide1"></label>
         <label id="slide2"></label>
@@ -16,34 +27,69 @@
         <label id="slide6"></label>
         <label id="slide7"></label>
       </section>
-      <div>
-        <input style="width: 100px;" id="imageFile" type="file" accept="image/*" multiple/>
-      <button id="fitBut">FIT</button>
+      <div id="rightButton" class="buttonContainer">
+        <span>&#62</span>
       </div>
     </div>
-    <div>Copyright @ 2022 <a href="https://github.com/chitranjan01">Chitranjan Gupta</a></div>
-    <script src="range.js" charset="utf-8"></script>
-    <script>
-        const fileInput = document.querySelector("#imageFile");
-        const fitButton = document.querySelector("#fitBut");
-        function handleFiles(){
-          const fileList = this.files;
-          if(fileList.length > 1){
-            
-          }else{
-            const slideArray = document.querySelector("#slider").children;
-            for(let i=0;i<slideArray.length;i++){
-              const objectURL = URL.createObjectURL(fileList[0]);
-              slideArray[i].style.backgroundImage = `url("${objectURL}")`;
-              //URL.revokeObjectURL(objectURL);
-            }
-          }
+    <div>
+      <label for="imageFile" style="color: black;">Input Images</label>
+      <input style="width: 100px" id="imageFile" type="file" accept="image/*" multiple />
+      <button id="fitBut">FIT</button>
+      <button id="refreshBut">Refresh</button>
+    </div>
+    <div style="color: black">
+      Copyright @ 2022
+      <a href="https://github.com/chitranjan01">Chitranjan Gupta</a>
+    </div>
+  </div>
+  <script src="./range.js" charset="utf-8"></script>
+  <script>
+    function handleFiles() {
+      const fileList = this.files;
+      const slideArray = document.querySelector("#slider").children;
+      if (fileList.length) {
+        for (let i = 0; i < slideArray.length; i++) {
+          const objectURL = URL.createObjectURL(
+            fileList[i < fileList.length ? i : fileList.length - 1]
+          );
+          slideArray[i].style.backgroundImage = `url("${objectURL}")`;
+          //URL.revokeObjectURL(objectURL);
         }
-        fileInput.addEventListener("change",handleFiles,false);
-        function handleFit(){
-          document.body.style = "--fit-type:contain"
+      }
+    }
+    let coverFit = true;
+    function handleFit() {
+      document.body.style = coverFit
+        ? "--fit-type:contain"
+        : "--fit-type:cover";
+      coverFit = !coverFit;
+    }
+    function handleRefresh(){
+      window.document.location.reload();
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+      const fileInput = document.querySelector("#imageFile");
+      const fitButton = document.querySelector("#fitBut");
+      const refreshButton = document.querySelector("#refreshBut");
+      fileInput.addEventListener("change", handleFiles, false);
+      fitButton.addEventListener("click", handleFit, false);
+      refreshButton.addEventListener("click", handleRefresh, false);
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.register("service-worker.js");
+      }
+      function setNotification(){
+        new Notification("Images Slider",{
+          body:"Chitranjan Gupta",
+          icon:"icons/icon-512.png"
+        })
+        //setTimeout(setNotification,3000);
+      }
+      Notification.requestPermission().then((result) => {
+        if(result === "granted"){
+          setNotification();
         }
-        fitButton.addEventListener("click",handleFit,false); 
-    </script>
-  </body>
+      })
+    });
+  </script>
+</body>
 </html>

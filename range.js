@@ -8,9 +8,15 @@ function getIndex(objectArray,object){
 }
 function initialise(){
   const labelSection = document.querySelector("#slider");
-  labelSection.addEventListener("click",() => {shuffle();});
+  labelSection.addEventListener("click",function(){shuffle()},false);
   const labelArray = document.querySelector("#slider").children;//Array of the labels
-  const activeElement = document.querySelector("#slide4");//Active element 
+  const activeElement = document.querySelector("#slide4");//Active element
+  const leftButton = document.querySelector("#leftButton");//Left Button
+  const rightButton = document.querySelector("#rightButton");//Right Button
+  leftButton.addEventListener("click",function(){
+    shuffle(document.querySelector("#slider").querySelector("label.active").previousElementSibling);});
+  rightButton.addEventListener("click",function(){ 
+    shuffle(document.querySelector("#slider").querySelector("label.active").nextElementSibling);});
   try{if(activeElement instanceof HTMLLabelElement){ //Checking the active element is label
     let index = getIndex(labelArray,activeElement), leftAlign = 0, rightAlign = 3;
     if(index !== -1){activeElement.className = "";activeElement.classList.add("active");
@@ -24,13 +30,14 @@ function initialise(){
       }
 }}}catch(e){log(e);}}
 
-function shuffle(){
+function shuffle(element){
   const labelArray = document.querySelector("#slider").children;//Array of labels
-  try{if(this.event.srcElement instanceof HTMLLabelElement){
+  const currentElement = element || this.event.srcElement;
+  try{if(currentElement instanceof HTMLLabelElement){
     //Check if the clicked element is label 
-      if(!(this.event.srcElement.classList.contains("active"))){
+      if(!(currentElement.classList.contains("active"))){
         //Check the clicked element is not the active element
-        let index = getIndex(labelArray,this.event.srcElement);
+        let index = getIndex(labelArray,currentElement);
         //Get the index of clicked element from the array of labels
         let leftAlign = 0, rightAlign = 3, prevElement = false,nextElement = false;
         if(index !== -1){ //Check if the index of the element is non negative
@@ -58,8 +65,8 @@ function shuffle(){
           //if yes then it set nextElement variable to true
           if(!prevElement && !nextElement)return;
           //If not anyone of the nextElement ya prevElement is true; nothing happens
-          this.event.srcElement.className = "";//It clears the className of clicked element
-          this.event.srcElement.classList.add("active");
+          currentElement.className = "";//It clears the className of clicked element
+          currentElement.classList.add("active");
           //It adds the active className to clicked element to make it active
           beforeElement(index);afterElement(index);
           function beforeElement(index){
